@@ -223,7 +223,9 @@ class ControllerResolver extends BaseControllerResolver
         $attributes = $this->getCurrentCall()->getData();
         $arguments = array();
         foreach ($parameters as $param) {
-            if (in_array($param->getName(), array('_data', '_list'))) {
+            if (is_string($attributes) || is_int($attributes)){
+                $arguments['data'] = $attributes;
+            }elseif (in_array($param->getName(), array('_data', '_list'))) {
                 $arguments[] = $attributes;
                 if ('_list' === $param->getName() && !isset($attributes[0])) {
                     array_pop($arguments);
